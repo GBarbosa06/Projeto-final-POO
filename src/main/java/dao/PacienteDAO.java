@@ -18,7 +18,7 @@ public class PacienteDAO {
     }
 
     public void adicionarPaciente(Paciente paciente) throws SQLException {
-        String sql = "INSERT INTO paciente (hospital_id, nome, cpf, data_nascimento, telefone, email) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO paciente (hospital_id, nome, cpf, data_nascimento, telefone, email, rua, numero, bairro, cidade, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setLong(1, paciente.getHospital().getId());
             stmt.setString(2, paciente.getNome());
@@ -26,10 +26,16 @@ public class PacienteDAO {
             stmt.setDate(4, Date.valueOf(paciente.getDataNascimento()));
             stmt.setString(5, paciente.getTelefone());
             stmt.setString(6, paciente.getEmail());
+            stmt.setString(7, paciente.getEndereco().getRua());
+            stmt.setString(8, paciente.getEndereco().getNumero());
+            stmt.setString(9, paciente.getEndereco().getBairro());
+            stmt.setString(10, paciente.getEndereco().getCidade());
+            stmt.setString(11, paciente.getEndereco().getCep());
             stmt.executeUpdate();
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    paciente.setId(generatedKeys.getLong(1));
+
+            try (ResultSet keys = stmt.getGeneratedKeys()) {
+                if (keys.next()) {
+                    paciente.setId(keys.getLong(1));
                 }
             }
         }
@@ -42,6 +48,13 @@ public class PacienteDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Hospital hospital = hospitalDAO.buscarHospitalPorId(rs.getLong("hospital_id"));
+                    Endereco endereco = new Endereco(
+                            rs.getString("rua"),
+                            rs.getString("numero"),
+                            rs.getString("bairro"),
+                            rs.getString("cidade"),
+                            rs.getString("cep")
+                    );
                     return new Paciente(
                             rs.getLong("id"),
                             hospital,
@@ -50,7 +63,7 @@ public class PacienteDAO {
                             rs.getDate("data_nascimento").toLocalDate(),
                             rs.getString("telefone"),
                             rs.getString("email"),
-                            null // Endereço você pode preencher depois
+                            endereco
                     );
                 }
             }
@@ -64,6 +77,13 @@ public class PacienteDAO {
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Hospital hospital = hospitalDAO.buscarHospitalPorId(rs.getLong("hospital_id"));
+                Endereco endereco = new Endereco(
+                        rs.getString("rua"),
+                        rs.getString("numero"),
+                        rs.getString("bairro"),
+                        rs.getString("cidade"),
+                        rs.getString("cep")
+                );
                 pacientes.add(new Paciente(
                         rs.getLong("id"),
                         hospital,
@@ -72,7 +92,7 @@ public class PacienteDAO {
                         rs.getDate("data_nascimento").toLocalDate(),
                         rs.getString("telefone"),
                         rs.getString("email"),
-                        null
+                        endereco
                 ));
             }
         }
@@ -80,7 +100,7 @@ public class PacienteDAO {
     }
 
     public void atualizarPaciente(Paciente paciente) throws SQLException {
-        String sql = "UPDATE paciente SET hospital_id = ?, nome = ?, cpf = ?, data_nascimento = ?, telefone = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE paciente SET hospital_id = ?, nome = ?, cpf = ?, data_nascimento = ?, telefone = ?, email = ?, rua = ?, numero = ?, bairro = ?, cidade = ?, cep = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, paciente.getHospital().getId());
             stmt.setString(2, paciente.getNome());
@@ -88,7 +108,12 @@ public class PacienteDAO {
             stmt.setDate(4, Date.valueOf(paciente.getDataNascimento()));
             stmt.setString(5, paciente.getTelefone());
             stmt.setString(6, paciente.getEmail());
-            stmt.setLong(7, paciente.getId());
+            stmt.setString(7, paciente.getEndereco().getRua());
+            stmt.setString(8, paciente.getEndereco().getNumero());
+            stmt.setString(9, paciente.getEndereco().getBairro());
+            stmt.setString(10, paciente.getEndereco().getCidade());
+            stmt.setString(11, paciente.getEndereco().getCep());
+            stmt.setLong(12, paciente.getId());
             stmt.executeUpdate();
         }
     }
