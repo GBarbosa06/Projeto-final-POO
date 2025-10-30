@@ -157,7 +157,22 @@ public class Main {
 				case 2 -> {
 					try {
 						List<Paciente> lista = pacienteService.listarTodosPacientes();
-						lista.forEach(System.out::println);
+						lista.forEach(p -> {
+							System.out.printf("ID: %s | Hospital: %s | Nome: %s | CPF: %s | Data Nascimento: %s | Telefone: %s | Email: %s | " +
+											"Rua: %s | Numero: %s | Bairro: %s | Cidade: %s | CEP: %s %n",
+									p.getId(),
+									p.getHospital().getNome(),
+									p.getNome(),
+									p.getCpf(),
+									p.getDataNascimento(),
+									p.getTelefone(),
+									p.getEmail(),
+									p.getEndereco().getRua(),
+									p.getEndereco().getNumero(),
+									p.getEndereco().getBairro(),
+									p.getEndereco().getCidade(),
+									p.getEndereco().getCep());
+						});
 					} catch (Exception e) {
 						System.out.println("Erro ao listar pacientes: " + e.getMessage());
 					}
@@ -273,7 +288,14 @@ public class Main {
 				}
 				case 2 -> {
 					try {
-						medicoService.listarTodosMedicos().forEach(System.out::println);
+						medicoService.listarTodosMedicos().forEach(m -> {
+							System.out.printf("ID: %s | Nome: %s | CRM: %s | Especialidade: %s | Email: %s %n",
+									m.getId(),
+									m.getNome(),
+									m.getCrm(),
+									m.getEspecialidade(),
+									m.getEmail());
+						});
 					} catch (Exception e) {
 						System.out.println("Erro ao listar médicos: " + e.getMessage());
 					}
@@ -371,7 +393,16 @@ public class Main {
 				}
 				case 2 -> {
 					try {
-						hospitalService.listarTodosHospitais().forEach(System.out::println);
+						hospitalService
+								.listarTodosHospitais()
+								.forEach((h) -> {
+									System.out.printf("ID: %s | Nome %s | CPNJ : %s | Telefone: %s |" +
+											" Rua: %s | Numero: %s | Bairro: %s | Cidade: %s | CEP: %s %n",
+											h.getId(), h.getNome(), h.getCnpj(), h.getTelefone(),
+											h.getEndereco().getRua(), h.getEndereco().getNumero(),
+											h.getEndereco().getBairro(), h.getEndereco().getCidade(),
+											h.getEndereco().getCep());
+								});
 					} catch (Exception e) {
 						System.out.println("Erro ao listar hospitais: " + e.getMessage());
 					}
@@ -497,7 +528,19 @@ public class Main {
 				}
 				case 2 -> {
 					try {
-						consultaService.listarTodasConsultas().forEach(System.out::println);
+						consultaService.listarTodasConsultas().forEach(c -> {
+							System.out.printf("ID: %s | Paciente ID: %s | Nome do Paciente: %s | Médico ID: %s | Nome do Médico: %s | Hospital ID: %s | Nome do Hospital | Data Consulta: %s | Observações: %s | Status: %s %n",
+									c.getId(),
+									c.getPaciente().getId(),
+									c.getPaciente().getNome(),
+									c.getMedico().getId(),
+									c.getMedico().getNome(),
+									c.getHospital().getId(),
+									c.getHospital().getNome(),
+									c.getDataConsulta(),
+									c.getObservacoes(),
+									c.getStatus());
+						});
 					} catch (Exception e) {
 						System.out.println("Erro ao listar consultas: " + e.getMessage());
 					}
@@ -592,7 +635,20 @@ public class Main {
 				}
 				case 2 -> {
 					try {
-						exameService.listarTodosExames().forEach(System.out::println);
+						exameService.listarTodosExames().forEach(e -> {
+							System.out.printf(
+									"ID: %s | Paciente: %s (ID: %s) | Hospital: %s (ID: %s) | Tipo Exame: %s | Data Exame: %s | Status: %s %n",
+									e.getId(),
+									e.getPaciente().getNome(),
+									e.getPaciente().getId(),
+									e.getHospital().getNome(),
+									e.getHospital().getId(),
+									e.getTipoExame(),
+									e.getDataExame(),
+									e.getStatus()
+							);
+						});
+
 					} catch (Exception e) {
 						System.out.println("Erro ao listar exames: " + e.getMessage());
 					}
@@ -689,7 +745,18 @@ public class Main {
 				}
 				case 2 -> {
 					try {
-						resultadoExameService.listarTodosResultadosExame().forEach(System.out::println);
+						resultadoExameService.listarTodosResultadosExame().forEach(r -> {
+							System.out.printf(
+									"ID: %s | Exame: %s (ID: %s) | Arquivo: %s | Laudo: %s | Data Resultado: %s %n",
+									r.getId(),
+									r.getExame().getTipoExame(),
+									r.getExame().getId(),
+									r.getArquivo(),
+									r.getLaudo(),
+									r.getDataResultado()
+							);
+						});
+
 					} catch (Exception e) {
 						System.out.println("Erro ao listar resultados: " + e.getMessage());
 					}
