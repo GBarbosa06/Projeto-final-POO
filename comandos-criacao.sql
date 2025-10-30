@@ -83,14 +83,15 @@ INSERT INTO paciente (hospital_id, nome, cpf, data_nascimento, telefone, email, 
 (3, 'Fernanda Lima', '333.444.555-66', '1995-11-02', '(31) 98888-9999', 'fernanda.lima@hotmail.com', 'Rua da Bahia', '320', 'Funcionários', 'Belo Horizonte', '30160-011');
 
 INSERT INTO exame (paciente_id, hospital_id, tipo_exame, data_exame, status) VALUES
-(1, 1, 'Hemograma', '2025-10-20', 'Concluído'),
-(2, 2, 'Raio-X', '2025-10-22', 'Pendente'),
-(3, 3, 'Ressonância Magnética', '2025-10-25', 'Concluído');
+(1, 1, 'Hemograma', '2025-10-20', 'CANCELADO'),
+(2, 2, 'Raio-X', '2025-10-22', 'AGENDADO'),
+(3, 3, 'Ressonância Magnética', '2025-10-25', 'REALIZADO');
+
 
 INSERT INTO consulta (paciente_id, medico_id, hospital_id, data_consulta, observacoes, status) VALUES
-(1, 1, 1, '2025-10-15', 'Paciente com dores no peito.', 'Concluída'),
-(2, 2, 2, '2025-10-18', 'Consulta de rotina pediátrica.', 'Agendada'),
-(3, 3, 3, '2025-10-20', 'Dor no joelho após atividade física.', 'Concluída');
+(1, 1, 1, '2025-10-15', 'Paciente com dores no peito.', 'REALIZADA'),
+(2, 2, 2, '2025-10-18', 'Consulta de rotina pediátrica.', 'AGENDADA'),
+(3, 3, 3, '2025-10-20', 'Dor no joelho após atividade física.', 'REALIZADA');
 
 INSERT INTO resultado_exame (exame_id, arquivo, laudo, data_resultado) VALUES
 (1, 'hemograma_ana.pdf', 'Exame dentro dos parâmetros normais.', '2025-10-21'),
