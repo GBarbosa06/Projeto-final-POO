@@ -529,7 +529,7 @@ public class Main {
 				case 2 -> {
 					try {
 						consultaService.listarTodasConsultas().forEach(c -> {
-							System.out.printf("ID: %s | Paciente ID: %s | Nome do Paciente: %s | Médico ID: %s | Nome do Médico: %s | Hospital ID: %s | Nome do Hospital | Data Consulta: %s | Observações: %s | Status: %s %n",
+							System.out.printf("ID: %s | Paciente ID: %s | Nome do Paciente: %s | Médico ID: %s | Nome do Médico: %s | Hospital ID: %s | Nome do Hospital: %s | Data Consulta: %s | Observações: %s | Status: %s %n",
 									c.getId(),
 									c.getPaciente().getId(),
 									c.getPaciente().getNome(),
